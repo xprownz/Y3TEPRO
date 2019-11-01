@@ -1,12 +1,16 @@
 <mat-card>
   <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="enterValue"></textarea>
+    <input matInput type="text" [(ngModel)]="enterTitle">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="enterContent"></textarea>
   </mat-form-field>
   <button
     mat-raised-button
-    colour="warn"
+    color="warn"
     (click)="onAddTattoPost()">Share Tattoo</button>
 </mat-card>
 
-<p>{{ newTattooPost }}</p>
+
+
 

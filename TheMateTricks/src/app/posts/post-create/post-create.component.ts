@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Post } from '../post.model';
 
 @Component({
   selector: 'app-post-create',
@@ -7,14 +8,20 @@ import { Component } from '@angular/core';
 
 })
 export class PostCreateComponent {
-  enterValue = '';
-  newTattooPost = '';
-  initialTextArea = 'Please enter details into the text area';
+  enterTitle = '';
+  enterContent = '';
+  @Output() postCreated = new EventEmitter<Post>();
+
+
+  //newTattooPost = '';
+  //initialTextArea = 'Please enter details into the text area';
 
   onAddTattoPost(){
-    this.newTattooPost = this.enterValue;
-
-
-    //alert('Image added!');
+    const post: Post = {
+      title: this.enterTitle,
+      content: this.enterContent
+    };
+    this.postCreated.emit(post);
   }
 }
+

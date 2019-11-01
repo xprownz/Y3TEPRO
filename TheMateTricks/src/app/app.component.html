@@ -1,4 +1,5 @@
 <app-header></app-header>
 <main>
-  <app-post-create></app-post-create>
+  <app-post-create (postCreated)="onPostAdded($event)"></app-post-create>
+  <app-post-list [posts]="storedTattooPosts"></app-post-list>
 </main>
