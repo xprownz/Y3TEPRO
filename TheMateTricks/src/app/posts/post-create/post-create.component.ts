@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
 
 })
 export class PostCreateComponent {
+  enterValue = '';
+  newTattooPost = '';
+  initialTextArea = 'Please enter details into the text area';
 
+  onAddTattoPost(){
+    this.newTattooPost = this.enterValue;
+
+
+    //alert('Image added!');
+  }
 }

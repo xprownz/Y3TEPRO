@@ -1,3 +1,6 @@
 <h2>The post create component</h2>
-<textarea rows="6"></textarea>
-<button>Save Post</button>
+<textarea rows="6" [(ngModel)]="enterValue"></textarea>
+<hr>
+<button (click)="onAddTattoPost()">Share Tattoo</button>
+<p>{{ newTattooPost }}</p>
+
