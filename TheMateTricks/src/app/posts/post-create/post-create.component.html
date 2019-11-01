@@ -1,6 +1,12 @@
-<h2>The post create component</h2>
-<textarea rows="6" [(ngModel)]="enterValue"></textarea>
-<hr>
-<button (click)="onAddTattoPost()">Share Tattoo</button>
+<mat-card>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="enterValue"></textarea>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    colour="warn"
+    (click)="onAddTattoPost()">Share Tattoo</button>
+</mat-card>
+
 <p>{{ newTattooPost }}</p>
 
