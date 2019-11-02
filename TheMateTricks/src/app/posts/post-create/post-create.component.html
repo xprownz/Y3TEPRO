@@ -1,16 +1,35 @@
 <mat-card>
-  <mat-form-field>
-    <input matInput type="text" [(ngModel)]="enterTitle">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="enterContent"></textarea>
-  </mat-form-field>
-  <button
-    mat-raised-button
-    color="warn"
-    (click)="onAddTattoPost()">Share Tattoo</button>
+  <form (submit)="onAddTattoPost(postTattooForm)"
+  #postTattooForm="ngForm">
+    <mat-form-field>
+      <input matInput
+      type="text"
+      name="title"
+      ngModel
+      required
+      minlength="4"
+      placeholder="Artist Name:"
+      #title="ngModel">
+      <mat-error *ngIf="title.invalid">Please enter a post title</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="6"
+        name="content"
+        ngModel
+        required
+        placeholder="Content"
+        #content="ngModel">
+      </textarea>
+      <mat-error *ngIf="content.invalid">Please enter a post content</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="warn"
+      type="submit">Share Tattoo
+    </button>
+  </form>
 </mat-card>
-
-
 
 

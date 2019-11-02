@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Post } from '../post.model';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-post-create',
@@ -10,18 +12,18 @@ import { Post } from '../post.model';
 export class PostCreateComponent {
   enterTitle = '';
   enterContent = '';
-  @Output() postCreate = new EventEmitter<Post>();
 
+  constructor(public postsTattooService: PostsService) {}
 
-  //newTattooPost = '';
-  //initialTextArea = 'Please enter details into the text area';
+  // newTattooPost = '';
+  // initialTextArea = 'Please enter details into the text area';
 
-  onAddTattoPost(){
-    const post: Post = {
-      title: this.enterTitle,
-      content: this.enterContent
-    };
-    this.postCreate.emit(post);
+  onAddTattoPost(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.postsTattooService.addTattooPost(form.value.title, form.value.content);
+    form.resetForm();
   }
 }
 
