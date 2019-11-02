@@ -10,7 +10,7 @@ import { Post } from '../post.model';
 export class PostCreateComponent {
   enterTitle = '';
   enterContent = '';
-  @Output() postCreated = new EventEmitter<Post>();
+  @Output() postCreate = new EventEmitter<Post>();
 
 
   //newTattooPost = '';
@@ -21,7 +21,7 @@ export class PostCreateComponent {
       title: this.enterTitle,
       content: this.enterContent
     };
-    this.postCreated.emit(post);
+    this.postCreate.emit(post);
   }
 }
 
