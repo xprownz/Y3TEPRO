@@ -18,7 +18,7 @@ const normalizePort = val => {
 
   return false;
 };
-//This function checks what tipe of error occured and exits via exit(1) from the node.js server 
+//This function checks what tipe of error occured and exits via exit(1) from the node.js server
 const onError = error => {
   if (error.syscall !== "listen") {
     throw error;
