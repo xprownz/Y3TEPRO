@@ -42,10 +42,20 @@ app.get('/api/posts', (req, res, next) => {
     .then(documents => {
       console.log(documents);
       res.status(200).json({
-        message:"Posts fetched successfully!",
+        message:"Tatto Posts fetched successfully!",
         posts: documents
         });
     });
+});
+
+// added the route that allows the deletion of the post using the id param 
+// used the mongoDB documentation for API query to implement the deletOne functionality
+// https://mongoosejs.com/docs/api/query.html#query_Query-deleteOne
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result);
+    res.status(200).json({ message: "Tattoo Post deleted!"})
+  })
 });
 
 module.exports = app;

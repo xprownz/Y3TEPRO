@@ -6,7 +6,8 @@
     <p>{{ details.content }}</p>
     <mat-action-row>
       <button mat-button color="accent">EDIT</button>
-      <button mat-button color="warn">DELETE</button>
+      <!--adding a click listener that uses the post id to delete it from the database-->
+      <button mat-button color="warn" (click)="onDelete(details.id)">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

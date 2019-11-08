@@ -17,6 +17,7 @@ export class PostsService {
     this.http.get<{message: string, posts: any }>(
       'http://localhost:3000/api/posts'
       )
+      // using the map function from rxjs to remove the underscore from the id attribute in the Post model returned
       .pipe(map((postData) => {
         return postData.posts.map(post => {
           return {
@@ -44,5 +45,12 @@ export class PostsService {
       });
     this.posts.push(post);
     this.postsTattooUpdated.next([...this.posts]);
+  }
+
+  deleteTattooPost(postId: string) {
+    this.http.delete("http://localhost:3000/api/posts/" + postId)
+    .subscribe(() => {
+      console.log("Tattoo Post deleted");
+    });
   }
 }
