@@ -50,7 +50,11 @@ export class PostsService {
   deleteTattooPost(postId: string) {
     this.http.delete("http://localhost:3000/api/posts/" + postId)
     .subscribe(() => {
-      console.log("Tattoo Post deleted");
+      // using filter method to return a subset of posts that does not include the post id parameter
+      // this allows Angular to update the list of posts instantly without reloading
+      const updatedTattooPosts = this.posts.filter(post => post.id !== postId);
+      this.posts = updatedTattooPosts;
+      this.postsTattooUpdated.next([...this.posts]);
     });
   }
 }
