@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './authorization/login/login.component';
+import { SignUpComponent } from './authorization/signup/signup.component';
 
 const routes: Routes = [
     // the path is what appears after the domain, empty is the home/index page
@@ -10,7 +11,8 @@ const routes: Routes = [
     { path: '', component: PostListComponent },
     { path: 'create', component: PostCreateComponent},
     { path: 'edit/:tattooId', component: PostCreateComponent},
-    { path: 'login', component: LoginComponent }
+    { path: 'login', component: LoginComponent },
+    { path: 'signup', component: SignUpComponent}
 ];
 
 @NgModule({
