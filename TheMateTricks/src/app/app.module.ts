@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   MatInputModule,
   MatCardModule,
@@ -20,6 +21,7 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { AppRouterModule } from './app-router.module';
 import { LoginComponent } from './authorization/login/login.component';
 import { SignUpComponent } from './authorization/signup/signup.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { SignUpComponent } from './authorization/signup/signup.component';
     HeaderComponent,
     PostListComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent, 
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { SignUpComponent } from './authorization/signup/signup.component';
     MatExpansionModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,11 +4,13 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { SignUpComponent } from './authorization/signup/signup.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 const routes: Routes = [
     // the path is what appears after the domain, empty is the home/index page
     // the componemt parameter defines what component is loaded for the path specified
-    { path: '', component: PostListComponent },
+    { path: '', component: CarouselComponent },
+    { path: 'browse', component: PostListComponent },
     { path: 'create', component: PostCreateComponent},
     { path: 'edit/:tattooId', component: PostCreateComponent},
     { path: 'login', component: LoginComponent },
