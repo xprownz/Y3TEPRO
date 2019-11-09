@@ -1,9 +1,13 @@
-<mat-toolbar color="primary">
-    <span><a routerLink = "/">LinkeInk</a></span>
+<mat-toolbar color="grey">
     <ul>
         <li>
             <!--using the angular routing directive instead of the usual href-->
-            <a routerLink="/create">Create</a>
+            <a mat-button routerLink="/create">Create</a>
+            <a mat-button routerLink="/shops">Ink Shops</a>
+            <a mat-button routerLink="/artists">Ink Artists</a>
+
         </li>
     </ul>
+    <span class="space"></span>
+    <span><a routerLink = "/">LinkedInk</a></span>
 </mat-toolbar>
