@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { Post } from './post.model';
 import { stringify } from '@angular/compiler/src/util';
+
+// client side
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
   private posts: Post[] = [];
   private postsTattooUpdated = new Subject<Post[]>();
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getTattooPosts() {
     this.http.get<{message: string, posts: any }>(
@@ -24,7 +27,7 @@ export class PostsService {
             title: post.title,
             content: post.content,
             id: post._id
-          }
+          };
         });
       }))
       .subscribe(transformedPosts => {
@@ -37,6 +40,13 @@ export class PostsService {
     return this.postsTattooUpdated.asObservable();
   }
 
+  // returning a clone of the object using spread operator
+  getTattooPost(id: string) {
+    return this.http.get<{ _id: string; title: string; content: string}>(
+      'http://localhost:3000/api/posts/' + id
+      );
+  }
+
   addTattooPost(title: string, content: string) {
     const post: Post = { id: null, title: title, content: content };
     this.http.post<{message: string, postId: string }>('http://localhost:3000/api/posts', post)
@@ -46,11 +56,26 @@ export class PostsService {
         post.id = postId;
         this.posts.push(post);
         this.postsTattooUpdated.next([...this.posts]);
+        this.router.navigate(['/']); // navigates back to main page
+      });
+  }
+
+  updateTattooPost(id: string, title: string, content: string) {
+    const post: Post = { id: id, title: title, content: content };
+    this.http
+      .put('http://localhost:3000/api/posts/' + id, post)
+      .subscribe(response => {
+        const updatedTattooPosts = [...this.posts];
+        const oldPostindex = updatedTattooPosts.findIndex(p => p.id === post.id);
+        updatedTattooPosts[oldPostindex] = post;
+        this.posts = updatedTattooPosts;
+        this.postsTattooUpdated.next([...this.posts]);
+        this.router.navigate(['/']);
       });
   }
 
   deleteTattooPost(postId: string) {
-    this.http.delete("http://localhost:3000/api/posts/" + postId)
+    this.http.delete('http://localhost:3000/api/posts/' + postId)
     .subscribe(() => {
       // using filter method to return a subset of posts that does not include the post id parameter
       // this allows Angular to update the list of posts instantly without reloading

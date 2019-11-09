@@ -1,11 +1,12 @@
 <mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form (submit)="onAddTattoPost(postTattooForm)"
-  #postTattooForm="ngForm">
+  #postTattooForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <input matInput
       type="text"
       name="title"
-      ngModel
+      [ngModel]="post?.title"
       required
       minlength="4"
       placeholder="Artist Name:"
@@ -17,7 +18,7 @@
         matInput
         rows="6"
         name="content"
-        ngModel
+        [ngModel]="post?.content"
         required
         placeholder="Content"
         #content="ngModel">
