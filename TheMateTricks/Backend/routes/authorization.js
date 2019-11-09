@@ -8,7 +8,7 @@ const router = express.Router();
 // creating the signup route that submit the authorization model to the mongoDB
 router.post("/signup", (req, res, next)  => {
     // using bcrypt node package to encrypt the user password and send the hash back as a response
-    bcrypt.hash(req.bod.password, 15)
+    bcrypt.hash(req.body.password, 15)
     .then(hash => {
         const auth = new Auth({
             email: req.body.email,   
