@@ -33,12 +33,15 @@ router.post("/signup", (req, res, next)  => {
 });
 
 router.post("/login", (req, res, next) => {
-    Auth.findOne({ email: req.body.email }).then(user => {
+    let foundUser;
+    Auth.findOne({ email: req.body.email })
+    .then(user => {
         if (!user) {
             return res.status(401).json({
                 message: "User authentication failed"
             });
         }
+        foundUser = user;
         return bcrypt.compare(req.body.password, user.password);
     })
     .then(result => {
@@ -48,8 +51,18 @@ router.post("/login", (req, res, next) => {
             });
         } 
         // the jwt.sign() method is what initializes the json web token 
-        // the second paramter is a 'secret' or unique password that is used to create the jwt, stored on the server (security)
-        const jwtoken = jwt.sign({email: user.email, userId: user._id}, 'kytdhfmfksglefdfmaklejieejg;adgkheghkghkgn/leajg;kah' );
+        // the second argument is a 'secret' or unique password that is used to create the jwt, stored on the server (security)
+        // the third argument is the configuration of the token
+        const jwtoken = jwt.sign(
+            {email: foundUser.email, userId: foundUser._id},
+            'kytdhfmfksglefdfmaklejieejg;adgkheghkghkgn/leajg;kah',
+            //defines the length of time it takes the token to expire on the server
+            {expiresIn: "1h" }
+        ); 
+        // successful login returns the token 
+        res.status(200).json({
+            jwtoken: jwtoken
+        })
     })
     .catch(err => {
         return res.status(401).json({
