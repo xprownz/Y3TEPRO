@@ -26,7 +26,8 @@ export class PostsService {
           return {
             title: post.title,
             content: post.content,
-            id: post._id
+            id: post._id,
+            imagePath: post.imagePath
           };
         });
       }))
@@ -42,33 +43,69 @@ export class PostsService {
 
   // returning a clone of the object using spread operator
   getTattooPost(id: string) {
-    return this.http.get<{ _id: string; title: string; content: string}>(
+    return this.http.get<{ _id: string, title: string, content: string, imagePath: string}>(
       'http://localhost:3000/api/posts/' + id
       );
   }
 
-  addTattooPost(title: string, content: string) {
-    const post: Post = { id: null, title: title, content: content };
-    this.http.post<{message: string, postId: string }>('http://localhost:3000/api/posts', post)
+  addTattooPost(title: string, content: string, image: File) {
+    // JSON can't include a file
+    const postData = new FormData();
+    postData.append('title', title);
+    postData.append('content', content);
+    // Add image
+    postData.append('image', image, title);
+    this.http
+      .post<{message: string, post: Post }>
+      ('http://localhost:3000/api/posts',
+      postData
+      )
       .subscribe((responseData) => {
-        // fetching the the post id from the response data
-        const postId = responseData.postId;
-        post.id = postId;
-        this.posts.push(post);
-        this.postsTattooUpdated.next([...this.posts]);
-        this.router.navigate(['/']); // navigates back to main page
+          // Still saving a post
+          const post: Post = {id: responseData.post.id,
+             title: title,
+             content: content,
+             imagePath: responseData.post.imagePath
+          };
+          // fetching the the post id from the response data
+          this.posts.push(post);
+          this.postsTattooUpdated.next([...this.posts]);
+          this.router.navigate(['/']); // navigates back to main page
       });
   }
 
-  updateTattooPost(id: string, title: string, content: string) {
-    const post: Post = { id: id, title: title, content: content };
+  updateTattooPost(id: string, title: string, content: string, image: File | string) {
+    let postData: Post | FormData;
+    // Do we have a string image or not
+    // If we have a file
+    if (typeof image === 'object') {
+      postData = new FormData();
+      postData.append('id', id);
+      postData.append('title', title);
+      postData.append('content', content);
+      postData.append('image', image, title);
+    } else {
+      // Send JSON data
+      postData = {
+        id: id,
+        title: title,
+        content: content,
+        imagePath: image
+      };
+    }
     this.http
-      .put('http://localhost:3000/api/posts/' + id, post)
+      .put('http://localhost:3000/api/posts/' + id, postData)
       .subscribe(response => {
-        const updatedTattooPosts = [...this.posts];
-        const oldPostindex = updatedTattooPosts.findIndex(p => p.id === post.id);
-        updatedTattooPosts[oldPostindex] = post;
-        this.posts = updatedTattooPosts;
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
+        const post: Post = {
+          id: id,
+          title: title,
+          content: content,
+          imagePath: ''
+        };
+        updatedPosts[oldPostIndex] = post;
+        this.posts = updatedPosts;
         this.postsTattooUpdated.next([...this.posts]);
         this.router.navigate(['/']);
       });

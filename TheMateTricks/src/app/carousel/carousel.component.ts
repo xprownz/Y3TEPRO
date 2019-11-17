@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'ngbd-carousel-basic', 
+    // tslint:disable-next-line: component-selector
+    selector: 'ngbd-carousel-basic',
     templateUrl: './carousel.component.html'
 })
 

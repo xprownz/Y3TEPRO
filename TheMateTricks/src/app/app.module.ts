@@ -30,7 +30,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     HeaderComponent,
     PostListComponent,
     LoginComponent,
-    SignUpComponent, 
+    SignUpComponent,
     CarouselComponent
   ],
   imports: [

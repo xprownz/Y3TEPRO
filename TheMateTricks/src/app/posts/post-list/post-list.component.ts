@@ -17,26 +17,27 @@ export class PostListComponent implements OnInit, OnDestroy {
   // ];
   posts: Post[] = [];
   isLoading = false;
-  private postsTattooSub: Subscription;
+  private postsSub: Subscription;
 
-  constructor(public postsTattooService: PostsService) {
-  }
+  constructor(public postsService: PostsService) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.postsTattooService.getTattooPosts();
-    this.postsTattooSub = this.postsTattooService.getPostUpdateListener()
-    .subscribe((posts: Post[]) => {
-      this.isLoading = false;
-      this.posts = posts;
-    });
+    this.postsService.getTattooPosts();
+    this.postsSub = this.postsService.getPostUpdateListener()
+      .subscribe((posts: Post[]) => {
+        this.isLoading = false;
+        this.posts = posts;
+      });
   }
 
   onDelete(postId: string) {
-    this.postsTattooService.deleteTattooPost(postId);
+    this.postsService.deleteTattooPost(postId);
   }
 
   ngOnDestroy() {
-    this.postsTattooSub.unsubscribe();
+    this.postsSub.unsubscribe();
   }
 }
+
+

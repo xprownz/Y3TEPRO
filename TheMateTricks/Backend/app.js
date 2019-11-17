@@ -1,3 +1,4 @@
+const path = require ('path');
 const express = require ('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
@@ -6,6 +7,9 @@ const postsRoutes = require("./routes/posts");
 const authRoutes = require("./routes/authorization");
 
 const app = express();
+
+// Bodyparser only works for JSON and not files
+////////// npm install --save multer ///////////////
 
 // server side
 // connection to mongoDB
@@ -19,6 +23,8 @@ mongoose.connect('mongodb+srv://Aaron:eBIa0zCI1xLkdZlB@cluster0-yiwjf.mongodb.ne
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
+// Only apply to requests that contain "backend/images" will be allowed to continue. Forwarded to backend images
+app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
