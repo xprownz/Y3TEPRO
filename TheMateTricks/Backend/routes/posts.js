@@ -1,6 +1,8 @@
 const express = require("express");
 const Post = require('../models/post');
+
 ////////// npm install --save multer ///////////////
+
 const multer = require('multer');
 
 const app = express.Router();

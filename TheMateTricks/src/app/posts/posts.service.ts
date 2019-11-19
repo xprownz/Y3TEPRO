@@ -56,21 +56,20 @@ export class PostsService {
     // Add image
     postData.append('image', image, title);
     this.http
-      .post<{message: string, post: Post }>
-      ('http://localhost:3000/api/posts',
-      postData
+      .post<{ message: string; post: Post }>(
+        'http://localhost:3000/api/posts',
+        postData
       )
-      .subscribe((responseData) => {
-          // Still saving a post
-          const post: Post = {id: responseData.post.id,
-             title: title,
-             content: content,
-             imagePath: responseData.post.imagePath
-          };
-          // fetching the the post id from the response data
-          this.posts.push(post);
-          this.postsTattooUpdated.next([...this.posts]);
-          this.router.navigate(['/']); // navigates back to main page
+      .subscribe(responseData => {
+        const post: Post = {
+          id: responseData.post.id,
+          title: title,
+          content: content,
+          imagePath: responseData.post.imagePath
+        };
+        this.posts.push(post);
+        this.postsTattooUpdated.next([...this.posts]);
+        this.router.navigate(['/']); // navigates back to main page
       });
   }
 

@@ -11,6 +11,7 @@ import { mimeType } from './mime-type.validator';
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css']
 })
+
 // Create form programmatically
 // FormGroup: Groups all controls of a form
 export class PostCreateComponent implements OnInit {
@@ -20,7 +21,7 @@ export class PostCreateComponent implements OnInit {
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  private mode = 'createTattoo';
+  private mode = 'create';
   private tattooId: string;
 
   constructor(public postsTattooService: PostsService, public route: ActivatedRoute) {}
@@ -37,9 +38,9 @@ export class PostCreateComponent implements OnInit {
       })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('tattooId')) {
+      if (paramMap.has('tattooId')) { // postId
         this.mode = 'edit';
-        this.tattooId = paramMap.get('postId');
+        this.tattooId = paramMap.get('tattooId'); // postId
         this.isLoading = true;
         this.postsTattooService.getTattooPost(this.tattooId).subscribe(postData => {
           this.isLoading = false;
@@ -68,42 +69,40 @@ export class PostCreateComponent implements OnInit {
     // ts doesnt know event target is a file input
     const file = (event.target as HTMLInputElement).files[0];
     // patchValue = Target a single control
-    this.form.patchValue({image: file});
+    this.form.patchValue({ image: file });
     // Informs Angular value has been changed and should revaluate
     this.form.get('image').updateValueAndValidity();
     // Create URL
     const reader = new FileReader();
     reader.onload = () => {
+      // Load file
       this.imagePreview = reader.result as string;
     };
-    // Load file
     reader.readAsDataURL(file);
   }
 
   // newTattooPost = '';
   // initialTextArea = 'Please enter details into the text area';
 
-  onAddTattoPost() {
+  onSavePost() {
     if (this.form.invalid) {
-      if (this.form.invalid) {
-        return;
-      }
-      this.isLoading = true;
-      if (this.mode === 'create') {
-        this.postsTattooService.addTattooPost(
-          this.form.value.title,
-          this.form.value.content,
-          this.form.value.image
-        );
-      } else {
-        this.postsTattooService.updateTattooPost(
-          this.tattooId,
-          this.form.value.title,
-          this.form.value.content,
-          this.form.value.image
-        );
-      }
-      this.form.reset();
+      return;
     }
+    this.isLoading = true;
+    if (this.mode === 'create') {
+      this.postsTattooService.addTattooPost(
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+      );
+    } else {
+      this.postsTattooService.updateTattooPost(
+        this.tattooId,
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+      );
+    }
+    this.form.reset();
   }
 }
