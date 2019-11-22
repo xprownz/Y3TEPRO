@@ -38,9 +38,9 @@ export class PostCreateComponent implements OnInit {
       })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('tattooId')) { // postId
+      if (paramMap.has('tattooId')) {
         this.mode = 'edit';
-        this.tattooId = paramMap.get('tattooId'); // postId
+        this.tattooId = paramMap.get('tattooId');
         this.isLoading = true;
         this.postsTattooService.getTattooPost(this.tattooId).subscribe(postData => {
           this.isLoading = false;
@@ -62,6 +62,7 @@ export class PostCreateComponent implements OnInit {
       }
     });
   }
+
 
   // Event object and extract file that was added
   // HTMLInputElement solves this problem

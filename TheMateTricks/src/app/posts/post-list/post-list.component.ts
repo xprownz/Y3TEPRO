@@ -31,13 +31,13 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDelete(postId: string) {
-    this.postsService.deleteTattooPost(postId);
-  }
+    onDelete(postId: string) {
+      this.postsService.deleteTattooPost(postId);
+    }
 
-  ngOnDestroy() {
-    this.postsSub.unsubscribe();
-  }
+    ngOnDestroy() {
+      this.postsSub.unsubscribe();
+    }
 }
 
 
