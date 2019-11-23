@@ -1,5 +1,6 @@
 const express = require("express");
 const Post = require('../models/post');
+const authCheck = require("../middleware/auth-check");
 
 ////////// npm install --save multer ///////////////
 
@@ -35,7 +36,7 @@ const storage= multer.diskStorage({
 //eBIa0zCI1xLkdZlB
 //post object managed by mongoose
 
-app.post("", multer({storage: storage}).single('image'), (req, res, next) => {
+app.post("", authCheck, multer({storage: storage}).single('image'), (req, res, next) => {
   //Getting URL
   const url = req.protocol + '://' + req.get("host");
   const post = new Post({
@@ -62,6 +63,7 @@ app.post("", multer({storage: storage}).single('image'), (req, res, next) => {
 // Update rersource with new values
 app.put(
   "/:id",
+  authCheck,
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     let imagePath = req.body.imagePath;
@@ -107,7 +109,7 @@ app.get("/:id", (req, res, next) => {
 // added the route that allows the deletion of the post using the id param
 // used the mongoDB documentation for API query to implement the deletOne functionality
 // https://mongoosejs.com/docs/api/query.html#query_Query-deleteOne
-app.delete("/:id", (req, res, next) => {
+app.delete("/:id", authCheck, (req, res, next) => {
   Post.deleteOne({_id: req.params.id}).then(result => {
     console.log(result);
     res.status(200).json({ message: "Tattoo Post deleted!"})
