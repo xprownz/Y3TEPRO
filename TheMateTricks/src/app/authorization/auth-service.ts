@@ -4,8 +4,15 @@ import { AuthInfo } from './auth.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-    constructor(private http: HttpClient) {}
+    
+    private token: string; 
 
+    constructor(private http: HttpClient) {}
+    
+    // allows access to the token as it is a private property
+    getToken() {
+        return this.token;
+    }
     createNewUser(email: string, password: string) {
         // create a new user object using the AuthInfo interface
         const authInfo: AuthInfo = { email, password };
@@ -17,9 +24,12 @@ export class AuthService {
 
     login(email: string, password: string) {
         const authInfo: AuthInfo = { email, password };
-        this.http.post('http://localhost:3000/api/authorization/login', authInfo)
+        // adding the token to the login header
+        this.http.post<{token: string}>('http://localhost:3000/api/authorization/login', authInfo)
         .subscribe(response => {
-            console.log(response);
+            const token = response.token;
+            this.token = token;
+            console.log(token);
         });
     }
 }

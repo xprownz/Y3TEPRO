@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   MatInputModule,
@@ -22,6 +22,7 @@ import { AppRouterModule } from './app-router.module';
 import { LoginComponent } from './authorization/login/login.component';
 import { SignUpComponent } from './authorization/signup/signup.component';
 import { CarouselComponent } from './carousel/carousel.component';
+import { AuthIntercept } from './authorization/auth-intercept';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthIntercept, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

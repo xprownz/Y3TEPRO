@@ -61,7 +61,7 @@ router.post("/login", (req, res, next) => {
         ); 
         // successful login returns the token 
         res.status(200).json({
-            jwtoken: jwtoken
+            token: jwtoken
         })
     })
     .catch(err => {
