@@ -50,4 +50,11 @@ export class AuthService {
             }
         });
     }
+    
+    //this logout functionally end the users session and returns values to unauthenticated status
+    logout() {
+        this.token = null;
+        this.isAuthenicated = false; 
+        this.authStatusListener.next(false);
+    }
 }
