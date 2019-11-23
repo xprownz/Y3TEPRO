@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 @Injectable({providedIn: 'root'})
 export class AuthService {
     
+    private isAuthenicated = false;
     private token: string;
     // subject is used to push the authentication information to the components that are listening
     // don't need th token - just need to know if the user is authenticated or not
@@ -16,6 +17,10 @@ export class AuthService {
     // allows access to the token as it is a private property
     getToken() {
         return this.token;
+    }
+
+    getIsAuthenticated(){
+        return this.isAuthenicated;
     }
     
     getAuthStatusListener() {
@@ -38,8 +43,11 @@ export class AuthService {
         .subscribe(response => {
             const token = response.token;
             this.token = token;
-            this.authStatusListener.next(true);
-            //console.log(token);
+            if (token){
+                this.isAuthenicated = true;
+                this.authStatusListener.next(true);
+                //console.log(token);
+            }
         });
     }
 }
