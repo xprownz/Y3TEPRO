@@ -9,6 +9,7 @@ export class AuthService {
     
     private isAuthenicated = false;
     private token: string;
+    private tokenTimer: any;
     // subject is used to push the authentication information to the components that are listening
     // don't need th token - just need to know if the user is authenticated or not
     private authStatusListener = new Subject<boolean>();
@@ -41,11 +42,18 @@ export class AuthService {
     login(email: string, password: string) {
         const authInfo: AuthInfo = { email, password };
         // adding the token to the login header
-        this.http.post<{token: string}>('http://localhost:3000/api/authorization/login', authInfo)
+        // adding the expires in paramter to the login header
+        this.http.post<{token: string, expiresIn: number}>('http://localhost:3000/api/authorization/login', authInfo)
         .subscribe(response => {
             const token = response.token;
             this.token = token;
             if (token){
+                const expiresIn = response.expiresIn;
+                console.log(expiresIn);
+                // applying a timeout to the expiration of the token and calling logout function, multiply by 1000 because it uses milliseconds
+                this.tokenTimer = setTimeout(() => {
+                    this.logout();
+                }, expiresIn * 1000);
                 this.isAuthenicated = true;
                 this.authStatusListener.next(true);
                 //console.log(token);
@@ -60,6 +68,7 @@ export class AuthService {
         this.token = null;
         this.isAuthenicated = false; 
         this.authStatusListener.next(false);
+        clearTimeout(this.tokenTimer);
         this.router.navigate(['/']);
     }
 }
