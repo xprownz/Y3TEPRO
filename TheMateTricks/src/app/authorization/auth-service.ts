@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthInfo } from './auth.model';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
     // don't need th token - just need to know if the user is authenticated or not
     private authStatusListener = new Subject<boolean>();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
     
     // allows access to the token as it is a private property
     getToken() {
@@ -34,6 +35,7 @@ export class AuthService {
         .subscribe(response => {
             //console.log(response);
         });
+        this.router.navigate(['/login']);
     }
 
     login(email: string, password: string) {
@@ -47,14 +49,17 @@ export class AuthService {
                 this.isAuthenicated = true;
                 this.authStatusListener.next(true);
                 //console.log(token);
+                // uses the anguler router to navigate back to the home page
+                this.router.navigate(['/']);
             }
         });
     }
     
-    //this logout functionally end the users session and returns values to unauthenticated status
+    //this logout functionally end the users session and returns values to unauthenticated status 
     logout() {
         this.token = null;
         this.isAuthenicated = false; 
         this.authStatusListener.next(false);
+        this.router.navigate(['/']);
     }
 }

@@ -21,8 +21,10 @@
       <button
         mat-raised-button
         color="warn"
-        type="submit">Login
+        type="submit"
+        *ngIf="!isLoading">Login
       </button>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
     </form>
   </mat-card>
   
