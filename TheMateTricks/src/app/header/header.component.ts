@@ -11,8 +11,10 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy{
   userIsAuthenticated = false;
   private authListenerSub: Subscription
+
   constructor(private authService: AuthService) {}
     ngOnInit() {
+      this.userIsAuthenticated = this.authService.getIsAuthenticated();
       // this is where you listen for th boolean value that determines authentiication
       this.authListenerSub = this.authService
       .getAuthStatusListener()
