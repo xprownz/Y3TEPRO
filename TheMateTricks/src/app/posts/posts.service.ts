@@ -25,9 +25,13 @@ export class PostsService {
         return postData.posts.map(post => {
           return {
             title: post.title,
+            artistName: post.artistName,
+            location: post.location,
+            phoneNo: post.phoneNo,
             content: post.content,
             id: post._id,
-            imagePath: post.imagePath
+            imagePath: post.imagePath,
+            creator: post.creator
           };
         });
       }))
@@ -43,15 +47,18 @@ export class PostsService {
 
   // returning a clone of the object using spread operator
   getTattooPost(id: string) {
-    return this.http.get<{ _id: string, title: string, content: string, imagePath: string}>(
+    return this.http.get<{ _id: string, title: string, artistName: string, location: string, phoneNo: string, content: string, imagePath: string}>(
       'http://localhost:3000/api/posts/' + id
       );
   }
 
-  addTattooPost(title: string, content: string, image: File) {
+  addTattooPost(title: string, artistName: string, location: string, phoneNo: string, content: string, image: File) {
     // JSON can't include a file
     const postData = new FormData();
     postData.append('title', title);
+    postData.append('artistName', artistName);
+    postData.append('location', location);
+    postData.append('phoneNo', phoneNo);
     postData.append('content', content);
     // Add image
     postData.append('image', image, title);
@@ -64,6 +71,9 @@ export class PostsService {
         const post: Post = {
           id: responseData.post.id,
           title: title,
+          artistName: artistName,
+          location: location,
+          phoneNo: phoneNo,
           content: content,
           imagePath: responseData.post.imagePath
         };
@@ -73,7 +83,7 @@ export class PostsService {
       });
   }
 
-  updateTattooPost(id: string, title: string, content: string, image: File | string) {
+  updateTattooPost(id: string, title: string, artistName: string, location: string, phoneNo: string, content: string, image: File | string) {
     let postData: Post | FormData;
     // Do we have a string image or not
     // If we have a file
@@ -81,6 +91,9 @@ export class PostsService {
       postData = new FormData();
       postData.append('id', id);
       postData.append('title', title);
+      postData.append('artistName', artistName);
+      postData.append('location', location);
+      postData.append('phoneNo', phoneNo);
       postData.append('content', content);
       postData.append('image', image, title);
     } else {
@@ -88,6 +101,9 @@ export class PostsService {
       postData = {
         id: id,
         title: title,
+        artistName: artistName,
+        location: location,
+        phoneNo: phoneNo,
         content: content,
         imagePath: image
       };
@@ -100,6 +116,9 @@ export class PostsService {
         const post: Post = {
           id: id,
           title: title,
+          artistName: artistName,
+          location: location,
+          phoneNo: phoneNo,
           content: content,
           imagePath: ''
         };

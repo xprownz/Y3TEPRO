@@ -16,6 +16,9 @@ import { mimeType } from './mime-type.validator';
 // FormGroup: Groups all controls of a form
 export class PostCreateComponent implements OnInit {
   enterTitle = '';
+  enterArtistName = '';
+  enterLocation = '';
+  enterPhoneNo = '';
   enterContent = '';
   post: Post;
   isLoading = false;
@@ -31,6 +34,9 @@ export class PostCreateComponent implements OnInit {
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
       }),
+      artistName: new FormControl(null, { validators: [Validators.required] }),
+      location: new FormControl(null, { validators: [Validators.required] }),
+      phoneNo: new FormControl(null, { validators: [Validators.required] }),
       content: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
         validators: [Validators.required],
@@ -47,11 +53,17 @@ export class PostCreateComponent implements OnInit {
           this.post = {
             id: postData._id,
             title: postData.title,
+            artistName: postData.artistName,
+            location: postData.location,
+            phoneNo: postData.phoneNo,
             content: postData.content,
             imagePath: postData.imagePath
           };
           this.form.setValue({
             title: this.post.title,
+            artistName: this.post.artistName,
+            location: this.post.location,
+            phoneNo: this.post.phoneNo,
             content: this.post.content,
             image: this.post.imagePath
           });
@@ -93,6 +105,9 @@ export class PostCreateComponent implements OnInit {
     if (this.mode === 'create') {
       this.postsTattooService.addTattooPost(
         this.form.value.title,
+        this.form.value.artistName,
+        this.form.value.location,
+        this.form.value.phoneNo,
         this.form.value.content,
         this.form.value.image
       );
@@ -100,6 +115,9 @@ export class PostCreateComponent implements OnInit {
       this.postsTattooService.updateTattooPost(
         this.tattooId,
         this.form.value.title,
+        this.form.value.artistName,
+        this.form.value.location,
+        this.form.value.phoneNo,
         this.form.value.content,
         this.form.value.image
       );

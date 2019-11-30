@@ -41,8 +41,12 @@ app.post("", authCheck, multer({storage: storage}).single('image'), (req, res, n
   const url = req.protocol + '://' + req.get("host");
   const post = new Post({
     title: req.body.title,
+    artistName: req.body.artistName,
+    location: req.body.location,
+    phoneNo: req.body.phoneNo,
     content: req.body.content,
-    imagePath: url + "/images/" + req.file.filename
+    imagePath: url + "/images/" + req.file.filename,
+    creator: req.userData.userId
   });
   //saving to the database
   post.save().then(createdPost => {
@@ -74,6 +78,9 @@ app.put(
     const post = new Post({
       _id: req.body.id,
       title: req.body.title,
+      artistName: req.body.artistName,
+      location: req.body.location,
+      phoneNo: req.body.phoneNo,
       content: req.body.content,
       imagePath: imagePath
     });

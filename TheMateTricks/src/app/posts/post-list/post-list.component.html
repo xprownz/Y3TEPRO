@@ -4,9 +4,12 @@
     <mat-expansion-panel-header>
       {{ post.title }}
     </mat-expansion-panel-header>
+    <p>{{ post.artistName }}</p>
     <div class="post-image">
       <img [src]="post.imagePath" [alt]="post.title">
     </div>
+    <p>{{ post.location }}</p>
+    <p>{{ post.phoneNo }}</p>
     <p>{{ post.content }}</p>
     <mat-action-row *ngIf="userIsAuthenticated">
       <a mat-button [routerLink]="['/edit', post.id]">EDIT</a>
