@@ -85,8 +85,13 @@ app.put(
       imagePath: imagePath
     });
     console.log(post);
-    Post.updateOne({ _id: req.params.id }, post).then(result => {
-      res.status(200).json({ message: "Update successful!" });
+    Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then(result => {
+      if (result.nModified > 0) {
+        res.status(200).json({ message: "Update successful!" });
+      }
+      else {
+        res.status(401).json({ message: "Not authorized!" });
+      }
     });
   }
 );
@@ -117,10 +122,15 @@ app.get("/:id", (req, res, next) => {
 // used the mongoDB documentation for API query to implement the deletOne functionality
 // https://mongoosejs.com/docs/api/query.html#query_Query-deleteOne
 app.delete("/:id", authCheck, (req, res, next) => {
-  Post.deleteOne({_id: req.params.id}).then(result => {
+  Post.deleteOne({_id: req.params.id, creator: req.userData.userId }).then(result => {
     console.log(result);
-    res.status(200).json({ message: "Tattoo Post deleted!"})
-  })
+    if (result.n > 0) {
+      res.status(200).json({ message: "Deletion successful!" });
+    }
+    else {
+      res.status(401).json({ message: "Not authorized!" });
+    }
+  });
 });
 
 module.exports = app;
