@@ -47,7 +47,7 @@ export class PostsService {
 
   // returning a clone of the object using spread operator
   getTattooPost(id: string) {
-    return this.http.get<{ _id: string, title: string, artistName: string, location: string, phoneNo: string, content: string, imagePath: string}>(
+    return this.http.get<{ _id: string, title: string, artistName: string, location: string, phoneNo: string, content: string, imagePath: string, creator: string}>(
       'http://localhost:3000/api/posts/' + id
       );
   }
@@ -105,7 +105,8 @@ export class PostsService {
         location: location,
         phoneNo: phoneNo,
         content: content,
-        imagePath: image
+        imagePath: image,
+        creator: null
       };
     }
     this.http

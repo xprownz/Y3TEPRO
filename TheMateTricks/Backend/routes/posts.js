@@ -82,7 +82,8 @@ app.put(
       location: req.body.location,
       phoneNo: req.body.phoneNo,
       content: req.body.content,
-      imagePath: imagePath
+      imagePath: imagePath,
+      creator: req.userData.userId
     });
     console.log(post);
     Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then(result => {
