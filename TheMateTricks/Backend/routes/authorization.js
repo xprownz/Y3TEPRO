@@ -63,7 +63,8 @@ router.post("/login", (req, res, next) => {
         res.status(200).json({
             token: jwtoken,
             //duration in seconds until the token expires
-            expiresIn: 3600
+            expiresIn: 3600,
+            userId: foundUser._id
         })
     })
     .catch(err => {
