@@ -1,8 +1,8 @@
 import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service';
 
-// annotation used to inject the auth service 
+// annotation used to inject the auth service
 @Injectable()
 export class AuthIntercept implements HttpInterceptor {
     constructor(private authService: AuthService) {}

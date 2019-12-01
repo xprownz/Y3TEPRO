@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-    
+
     private isAuthenicated = false;
     private token: string;
     private tokenTimer: any;
@@ -16,16 +16,16 @@ export class AuthService {
     private authStatusListener = new Subject<boolean>();
 
     constructor(private http: HttpClient, private router: Router) {}
-    
+
     // allows access to the token as it is a private property
     getToken() {
         return this.token;
     }
 
-    getIsAuthenticated(){
+    getIsAuthenticated() {
         return this.isAuthenicated;
     }
-    
+
     getAuthStatusListener() {
         return this.authStatusListener.asObservable();
     }
@@ -38,11 +38,14 @@ export class AuthService {
     createNewUser(email: string, password: string) {
         // create a new user object using the AuthInfo interface
         const authInfo: AuthInfo = { email, password };
-        this.http.post('http://localhost:3000/api/authorization/signup', authInfo)
-        .subscribe(response => {
-            //console.log(response);
-        });
-        this.router.navigate(['/login']);
+        this.http
+          .post('http://localhost:3000/api/authorization/signup', authInfo)
+          .subscribe(() => {
+            this.router.navigate(['/login']);
+          }, error => {
+            // Checks if user credentials have already been used before
+            this.authStatusListener.next(false);
+          });
     }
 
     login(email: string, password: string) {
@@ -53,7 +56,7 @@ export class AuthService {
         .subscribe(response => {
             const token = response.token;
             this.token = token;
-            if (token){
+            if (token) {
                 const expiresIn = response.expiresIn;
                 this.setAuthTimer(expiresIn);
                 this.isAuthenicated = true;
@@ -62,11 +65,13 @@ export class AuthService {
                 const now = new Date();
                 // creating a new constant to store the expiration date and passing it to the saveAuthenticationData function
                 const expirationDate = new Date(now.getTime() + expiresIn * 1000);
-                this.saveAuthenticationData(token, expirationDate, this.userId)
+                this.saveAuthenticationData(token, expirationDate, this.userId);
                 console.log(expirationDate);
                 // uses the anguler router to navigate back to the home page
                 this.router.navigate(['/']);
             }
+        }, error => {
+          this.authStatusListener.next(false);
         });
     }
 
@@ -78,7 +83,7 @@ export class AuthService {
         const now = new Date();
         // this lets us check if the duration is in the future
         const expiresIn = authInfo.expirationDate.getTime() - now.getTime();
-        if(expiresIn > 0) {
+        if (expiresIn > 0) {
             this.token = authInfo.token;
             this.isAuthenicated = true;
             this.userId = authInfo.userId;
@@ -86,11 +91,11 @@ export class AuthService {
             this.authStatusListener.next(true);
         }
     }
-    
-    //this logout functionally end the users session and returns values to unauthenticated status 
+
+    // this logout functionally end the users session and returns values to unauthenticated status
     logout() {
         this.token = null;
-        this.isAuthenicated = false; 
+        this.isAuthenicated = false;
         this.authStatusListener.next(false);
         clearTimeout(this.tokenTimer);
         this.clearAuthenticationData();
@@ -130,6 +135,6 @@ export class AuthService {
             token: token,
             expirationDate: new Date(expirationDate),
             userId: userId
-        }
+        };
     }
 }

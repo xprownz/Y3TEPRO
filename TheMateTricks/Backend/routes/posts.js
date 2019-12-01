@@ -61,6 +61,11 @@ app.post("", authCheck, multer({storage: storage}).single('image'), (req, res, n
         id: createdPost._id
       }
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Failed to create post"
+    });
   });
 });
 
@@ -93,6 +98,11 @@ app.put(
       else {
         res.status(401).json({ message: "Not authorized!" });
       }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Failed to update post"
+      });
     });
   }
 );
@@ -116,6 +126,10 @@ app.get("/:id", (req, res, next) => {
     } else {
       res.status(404).json({message: "Post could not be found"});
     }
+  }).catch(error => {
+    res.status(500).json({
+      message: "Fetching post failed"
+    });
   });
 });
 
@@ -131,6 +145,11 @@ app.delete("/:id", authCheck, (req, res, next) => {
     else {
       res.status(401).json({ message: "Not authorized!" });
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: "Fetching post failed"
+    });
   });
 });
 

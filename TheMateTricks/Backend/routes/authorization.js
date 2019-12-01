@@ -12,7 +12,7 @@ router.post("/signup", (req, res, next)  => {
     bcrypt.hash(req.body.password, 15)
     .then(hash => {
         const auth = new Auth({
-            email: req.body.email,   
+            email: req.body.email,
             password: hash
         });
         // save the user to the database with the encyption for security
@@ -26,7 +26,7 @@ router.post("/signup", (req, res, next)  => {
         // catch is used for error handling for failed authentication
         .catch(err => {
             res.status(500).json({
-                error: err
+              message: "Invalid user authentication credentials"
             });
         });
     });
@@ -49,8 +49,8 @@ router.post("/login", (req, res, next) => {
             return res.status(401).json({
                 message: "User authentication failed"
             });
-        } 
-        // the jwt.sign() method is what initializes the json web token 
+        }
+        // the jwt.sign() method is what initializes the json web token
         // the second argument is a 'secret' or unique password that is used to create the jwt, stored on the server (security)
         // the third argument is the configuration of the token
         const jwtoken = jwt.sign(
@@ -58,8 +58,8 @@ router.post("/login", (req, res, next) => {
             'kytdhfmfksglefdfmaklejieejg;adgkheghkghkgn/leajg;kah',
             //defines the length of time it takes the token to expire on the server
             {expiresIn: "1h" }
-        ); 
-        // successful login returns the token 
+        );
+        // successful login returns the token
         res.status(200).json({
             token: jwtoken,
             //duration in seconds until the token expires
@@ -69,7 +69,7 @@ router.post("/login", (req, res, next) => {
     })
     .catch(err => {
         return res.status(401).json({
-            message: "User authentication failed"
+            message: "Invalid user authentication credentials"
         });
     });
 });

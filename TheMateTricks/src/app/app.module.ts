@@ -10,9 +10,10 @@ import {
   MatButtonModule,
   MatToolbarModule,
   MatExpansionModule,
-  MatProgressSpinnerModule
-
+  MatProgressSpinnerModule,
+  MatDialogModule
 } from '@angular/material';
+import { ErrorInterceptor } from './error-interceptor';
 
 import { AppComponent } from './app.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
@@ -23,6 +24,7 @@ import { LoginComponent } from './authorization/login/login.component';
 import { SignUpComponent } from './authorization/signup/signup.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { AuthIntercept } from './authorization/auth-intercept';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { AuthIntercept } from './authorization/auth-intercept';
     PostListComponent,
     LoginComponent,
     SignUpComponent,
-    CarouselComponent
+    CarouselComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -47,9 +50,14 @@ import { AuthIntercept } from './authorization/auth-intercept';
     MatProgressSpinnerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    MatDialogModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthIntercept, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthIntercept, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

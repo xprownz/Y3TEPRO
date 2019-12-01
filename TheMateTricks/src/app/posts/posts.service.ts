@@ -75,7 +75,8 @@ export class PostsService {
           location: location,
           phoneNo: phoneNo,
           content: content,
-          imagePath: responseData.post.imagePath
+          imagePath: responseData.post.imagePath,
+          creator: null
         };
         this.posts.push(post);
         this.postsTattooUpdated.next([...this.posts]);
@@ -121,7 +122,8 @@ export class PostsService {
           location: location,
           phoneNo: phoneNo,
           content: content,
-          imagePath: ''
+          imagePath: '',
+          creator: null
         };
         updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
