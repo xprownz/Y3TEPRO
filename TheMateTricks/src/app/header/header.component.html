@@ -1,4 +1,4 @@
-<mat-toolbar color="grey">
+<mat-toolbar>
     <ul>
         <li *ngIf="userIsAuthenticated">
             <!--using the angular routing directive instead of the usual href-->
@@ -6,10 +6,7 @@
             <!--<a mat-button routerLink="/browse">Carousel</a>-->
         </li>
         <li>
-            <a mat-button routerLink="/shops">Ink Shops</a>
-        </li>
-        <li>
-            <a mat-button routerLink="/artists">Ink Artists</a>
+            <a mat-button routerLink="/">Browse</a>
         </li>
     </ul>
     <span class="space"></span>
@@ -25,5 +22,5 @@
             <button mat-button (click)="onLogout()">Logout</button>
         </li>
     </ul>
-    <span><a routerLink = "/">Inked-In</a></span>
+    <span><a routerLink = "/">Tatt-whoo</a></span>
 </mat-toolbar>

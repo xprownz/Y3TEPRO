@@ -13,3 +13,7 @@ ul {
 .space {
     flex: 11 auto;
 }
+
+mat-toolbar {
+    background-color: black;
+}

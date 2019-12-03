@@ -1,16 +1,17 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
+<mat-accordion class="listStyle" multi="true" *ngIf="posts.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let post of posts">
     <mat-expansion-panel-header>
       {{ post.title }}
     </mat-expansion-panel-header>
-    <p>{{ post.artistName }}</p>
     <div class="post-image">
       <img [src]="post.imagePath" [alt]="post.title">
     </div>
-    <p>{{ post.location }}</p>
-    <p>{{ post.phoneNo }}</p>
-    <p>{{ post.content }}</p>
+    <p>Artist Name: {{post.artistName}}</p>
+    <p>Working Location:   {{ post.location }}</p>
+    <p>Contact Number:   {{ post.phoneNo }}</p>
+    <p>Description:  {{ post.content }}</p>
+    
     <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
       <a mat-button [routerLink]="['/edit', post.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>

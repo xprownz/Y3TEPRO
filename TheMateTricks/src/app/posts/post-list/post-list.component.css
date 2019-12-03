@@ -6,15 +6,36 @@
   text-align: center;
 }
 
+
 mat-spinner {
   margin: auto;
 }
 
+mat-expansion-panel {
+  width: 70%;
+  margin: auto;
+  margin-bottom: 1rem;
+  background-color: black;
+}
+
+mat-expansion-panel .post-image {
+  margin: auto;
+}
+
 .post-image {
-  width: 100%;
+  width: 75%;
+  margin-left: 8px;
 }
 
 .post-image img {
-  width: 60%;
+  width: 95%;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.5)s;
+  border-radius: 6px;
+}
+
+.postTextDisplay {
+  width: 75%;
+  margin: auto;
+  color: white;
+
 }

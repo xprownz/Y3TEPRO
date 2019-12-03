@@ -3,6 +3,12 @@ input{
   width: 100%;
 }
 
+mat-card {
+  width: 320px;
+  margin: auto;
+  background-color: black;
+}
+
 mat-spinner {
   margin: auto;
 }

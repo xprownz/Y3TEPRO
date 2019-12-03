@@ -15,7 +15,7 @@
       </mat-form-field>
       <mat-form-field>
       <!--the matInput tag allows the use of the angular input field directive-->
-        <input name="password" type="password" ngModel matInput placeholder="Password" #passwordInput>
+        <input name="password" type="password" ngModel required matInput placeholder="Password:" #passwordInput>
         <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
       </mat-form-field>
       <button
