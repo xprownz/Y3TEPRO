@@ -13,7 +13,7 @@ const app = express();
 
 // server side
 // connection to mongoDB
-mongoose.connect('mongodb+srv://Aaron:eBIa0zCI1xLkdZlB@cluster0-yiwjf.mongodb.net/node-angular?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://Aaron:' + process.env.MONGO_ATLAS_PW + '@cluster0-yiwjf.mongodb.net/node-angular?retryWrites=true&w=majority')
   .then(() => {
     console.log('Connected to database')
   })

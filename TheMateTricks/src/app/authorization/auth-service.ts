@@ -4,6 +4,10 @@ import { AuthInfo } from './auth.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/authorization/';
+
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
@@ -39,7 +43,7 @@ export class AuthService {
         // create a new user object using the AuthInfo interface
         const authInfo: AuthInfo = { email, password };
         this.http
-          .post('http://localhost:3000/api/authorization/signup', authInfo)
+          .post(BACKEND_URL + '/signup', authInfo)
           .subscribe(() => {
             this.router.navigate(['/login']);
           }, error => {
@@ -52,7 +56,7 @@ export class AuthService {
         const authInfo: AuthInfo = { email, password };
         // adding the token to the login header
         // adding the expires in paramter to the login header
-        this.http.post<{token: string, expiresIn: number, userId: string}>('http://localhost:3000/api/authorization/login', authInfo)
+        this.http.post<{token: string, expiresIn: number, userId: string}>(BACKEND_URL + '/login', authInfo)
         .subscribe(response => {
             const token = response.token;
             this.token = token;

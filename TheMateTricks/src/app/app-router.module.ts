@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
-import { LoginComponent } from './authorization/login/login.component';
-import { SignUpComponent } from './authorization/signup/signup.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { AuthGuard } from './authorization/auth.guard';
 
@@ -14,8 +12,7 @@ const routes: Routes = [
     { path: 'browse', component: CarouselComponent },
     { path: 'create', component: PostCreateComponent, canActivate: [AuthGuard]},
     { path: 'edit/:tattooId', component: PostCreateComponent, canActivate: [AuthGuard]},
-    { path: 'login', component: LoginComponent },
-    { path: 'signup', component: SignUpComponent}
+    { path: 'auth', loadChildren: './authorization/auth.module#AuthModule'}
 ];
 
 @NgModule({

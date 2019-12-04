@@ -4,8 +4,10 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+import { environment } from '../../environments/environment';
 import { Post } from './post.model';
-import { stringify } from '@angular/compiler/src/util';
+
+const BACKEND_URL = environment.apiUrl + '/posts/';
 
 // client side
 
@@ -18,7 +20,7 @@ export class PostsService {
 
   getTattooPosts() {
     this.http.get<{message: string, posts: any }>(
-      'http://localhost:3000/api/posts'
+      BACKEND_URL
       )
       // using the map function from rxjs to remove the underscore from the id attribute in the Post model returned
       .pipe(map((postData) => {
@@ -48,7 +50,7 @@ export class PostsService {
   // returning a clone of the object using spread operator
   getTattooPost(id: string) {
     return this.http.get<{ _id: string, title: string, artistName: string, location: string, phoneNo: string, content: string, imagePath: string, creator: string}>(
-      'http://localhost:3000/api/posts/' + id
+      BACKEND_URL + id
       );
   }
 
@@ -64,7 +66,7 @@ export class PostsService {
     postData.append('image', image, title);
     this.http
       .post<{ message: string; post: Post }>(
-        'http://localhost:3000/api/posts',
+        BACKEND_URL,
         postData
       )
       .subscribe(responseData => {
@@ -111,7 +113,7 @@ export class PostsService {
       };
     }
     this.http
-      .put('http://localhost:3000/api/posts/' + id, postData)
+      .put(BACKEND_URL + id, postData)
       .subscribe(response => {
         const updatedPosts = [...this.posts];
         const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
@@ -133,7 +135,7 @@ export class PostsService {
   }
 
   deleteTattooPost(postId: string) {
-    this.http.delete('http://localhost:3000/api/posts/' + postId)
+    this.http.delete(BACKEND_URL + postId)
     .subscribe(() => {
       // using filter method to return a subset of posts that does not include the post id parameter
       // this allows Angular to update the list of posts instantly without reloading
