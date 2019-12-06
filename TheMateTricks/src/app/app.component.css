@@ -6,4 +6,6 @@ main {
 .imagehome {
   background-image: url("/src/assets/images/home.jpg")  ;
 }
-
+mat-card {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

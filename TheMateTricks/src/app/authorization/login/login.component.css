@@ -11,3 +11,10 @@ mat-card {
 mat-spinner {
   margin: auto;
 }
+
+.tattooImage {
+    height: 100vh; 
+    background-size: cover; 
+    width: auto;
+    background-image: url("/src/assets/images/home.jpg");
+}

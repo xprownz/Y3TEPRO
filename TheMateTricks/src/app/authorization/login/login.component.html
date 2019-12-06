@@ -1,5 +1,5 @@
-
-<mat-card>
+<div class="tattooImage">
+  <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <!--the ngForm local reference allows access to the underlying angular form object-->
     <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
@@ -28,6 +28,8 @@
       <mat-spinner *ngIf="isLoading"></mat-spinner>
     </form>
   </mat-card>
+</div>
+
   
   
   
