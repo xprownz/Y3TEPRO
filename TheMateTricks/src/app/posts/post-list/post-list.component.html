@@ -1,5 +1,44 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion class="listStyle" multi="true" *ngIf="posts.length > 0 && !isLoading">
+<mat-card *ngFor="let post of posts">
+  <mat-card-title>
+    {{ post.title }}
+  </mat-card-title>
+  <mat-card-subtitle>
+      Artist: {{post.artistName}}
+  </mat-card-subtitle>
+  <div class="post-image">
+    <img [src]="post.imagePath" [alt]="post.title">
+  </div>
+  <div class="detailDisplay">
+    <table>
+        <thead style="margin: 1rem;">
+          <tr>
+            <th>Working Location</th>
+            <th>Contact Number</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ post.location }}</td>
+            <td>{{ post.phoneNo }}</td>
+            <td>{{ post.content }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  
+  <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
+      <a mat-button [routerLink]="['/edit', post.id]">EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+  </mat-action-row>
+  <mat-card-footer>
+    <p></p>
+  </mat-card-footer>
+</mat-card>
+<mat-card class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</mat-card>
+<!--
+  <mat-accordion class="listStyle" multi="true" *ngIf="posts.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let post of posts">
     <mat-expansion-panel-header>
       {{ post.title }}
@@ -19,3 +58,5 @@
   </mat-expansion-panel>
 </mat-accordion>
 <p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>
+
+-->

@@ -1,7 +1,9 @@
 main {
-  width: 80%;
+  width: 90%;
   margin: 1rem auto;
 }
 
-
+.imagehome {
+  background-image: url("/src/assets/images/home.jpg")  ;
+}
 

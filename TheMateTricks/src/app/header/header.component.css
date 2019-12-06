@@ -1,6 +1,5 @@
 a {
     text-decoration: none;
-    color: white;
 }
 
 ul {
@@ -14,6 +13,3 @@ ul {
     flex: 11 auto;
 }
 
-mat-toolbar {
-    background-color: black;
-}
